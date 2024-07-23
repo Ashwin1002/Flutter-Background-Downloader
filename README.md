@@ -188,3 +188,4 @@ Place the above code in you ```initState()``` of your dart code.
 
 #TODO
 - Multiple downloads at once
+- Cannot open downloaded files in Android

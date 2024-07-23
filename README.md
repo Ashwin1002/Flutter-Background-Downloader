@@ -76,6 +76,11 @@ Now, You can use the ```DownloadManager`` class.
   _downloadManage.initializeDownload();
 ```
 
+# Dispose DownloadManager
+```
+  _downloadManage.dispose();
+```
+
 Place the above code in you ```initState()``` of your dart code.
 
 # Listen to DownloadManager stream

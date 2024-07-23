@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: InkWell(
           onTap: () async {
-            // await _downloadManager.open(taskId: _taskID!);
+            await _downloadManager.openFile(_downloadTask.taskID);
           },
           child: Card(
             child: Padding(

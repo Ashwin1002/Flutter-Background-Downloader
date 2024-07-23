@@ -97,7 +97,7 @@ class DownloadManager with Helpers {
     if (tasks.isNotEmpty) {
       for (var task in tasks) {
         if (task.url == url) {
-          logPrint('task => $task');
+          // logPrint('task => ${task.savedDir}/${task.filename}');
           _controller.sink.add(
             DownloadModel(
               taskID: task.taskId,
@@ -113,6 +113,7 @@ class DownloadManager with Helpers {
     _isPermissionReady = await checkStoragePermission();
     if (_isPermissionReady) {
       _localPath = (await cacheDir).absolute.path;
+      logPrint('saved directory => $_localPath');
       await createDirectory(_localPath);
     }
 

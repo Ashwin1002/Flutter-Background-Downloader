@@ -1,6 +1,7 @@
 library background_downloader;
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';

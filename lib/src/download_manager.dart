@@ -2,6 +2,14 @@ part of '../background_downloader.dart';
 
 String downloderSendPort = 'downloader_send_port';
 
+///
+/// Helps to ease your download process. It uses 'flutter_downloader' as a service to download files.
+/// Requires [url] to be provided.
+///
+/// [initialize] method needs to be called in the main function of your app.
+///
+/// Contains all download methods: startDownload(), pauseDownload(), resumeDownload(), cancelDownload(), retryDownload(), removeDownload()
+///
 class DownloadManager with Helpers {
   DownloadManager({
     required this.url,
@@ -54,13 +62,13 @@ class DownloadManager with Helpers {
   ///
   /// For [getting download event stream] property which is basically returns [_downloadStream]
   ///
-  Stream<DownloadModel>? getGeofenceStream() => _downloadStream;
+  Stream<DownloadModel>? getDownloadStream() => _downloadStream;
 
   ///
   /// private boolean value [_showContent] to make sure the content
   /// is shown only after downloading tasks is loaded.
   ///
-  late bool _showContent;
+  late ValueNotifier<bool> _showContent;
 
   ///
   /// [_isPermissionReady], a boolean value to check whether the permissions are provieded correctly
@@ -75,8 +83,12 @@ class DownloadManager with Helpers {
   ///
   /// getter for boolean value [_showContent]
   ///
-  bool get showContent => _showContent;
+  ValueNotifier<bool> get showContent => _showContent;
 
+  ///
+  /// Check whether there is any tasks that is started, completed or failed.
+  /// If [tasks] is not emtpy, add the task which url is equals to the main url
+  ///
   Future<void> _prepare() async {
     final tasks = await FlutterDownloader.loadTasks();
 
@@ -86,7 +98,7 @@ class DownloadManager with Helpers {
       for (var task in tasks) {
         if (task.url == url) {
           logPrint('task => $task');
-          _controller.add(
+          _controller.sink.add(
             DownloadModel(
               taskID: task.taskId,
               progress: task.progress,
@@ -97,13 +109,15 @@ class DownloadManager with Helpers {
       }
     }
 
+    /// check if permission is provided
     _isPermissionReady = await checkStoragePermission();
     if (_isPermissionReady) {
       _localPath = (await cacheDir).absolute.path;
       await createDirectory(_localPath);
     }
 
-    _showContent = true;
+    /// setting the [_showContent] value to true
+    _showContent.value = true;
   }
 
   ///
@@ -128,6 +142,8 @@ class DownloadManager with Helpers {
       _bindBackgroundIsolate();
       return;
     }
+
+    _downloadStream = _controller.stream;
     _port.listen(
       (dynamic message) {
         var taskID = (message as List<dynamic>)[0] as String;
@@ -139,12 +155,12 @@ class DownloadManager with Helpers {
           'task ($taskID) is in status ($status) and process ($progress)',
         );
 
-        _downloadStream = _controller.stream;
-
         _controller.sink.add(
             DownloadModel(taskID: taskID, progress: progress, status: status));
       },
     );
+
+    _controller.add(DownloadModel.initial());
   }
 
   ///
@@ -153,12 +169,12 @@ class DownloadManager with Helpers {
   /// avoid tree shaking in release mode for Android.
   ///
   @pragma('vm:entry-point')
-  void _downloadCallback(
+  static void _downloadCallback(
     String id,
     int status,
     int progress,
   ) {
-    logPrint(
+    log(
       'Callback on background isolate: '
       'task ($id) is in status ($status) and process ($progress)',
     );
@@ -243,6 +259,22 @@ class DownloadManager with Helpers {
   }
 
   ///
+  /// Cancel download task with id [taskID]
+  ///
+  Future<void> cancelDownload(String taskID) async {
+    await FlutterDownloader.cancel(
+      taskId: taskID,
+    );
+  }
+
+  ///
+  /// Open the download task with id [taskID] if download completed and returns true else false.
+  ///
+  Future<bool> openFile(String taskID) async {
+    return await FlutterDownloader.open(taskId: taskID);
+  }
+
+  ///
   /// Startes background isolate.
   /// and perpare download task for starting download service
   ///
@@ -251,7 +283,7 @@ class DownloadManager with Helpers {
 
     FlutterDownloader.registerCallback(_downloadCallback, step: 1);
 
-    _showContent = false;
+    _showContent = ValueNotifier<bool>(false);
     _isPermissionReady = false;
 
     unawaited(_prepare());

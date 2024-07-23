@@ -23,6 +23,12 @@ class DownloadModel {
     required this.status,
   });
 
+  factory DownloadModel.initial() => const DownloadModel(
+        taskID: '',
+        progress: -1,
+        status: DownloadStatus.undefined,
+      );
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

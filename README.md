@@ -25,10 +25,10 @@ Then, in your code import:
 import 'package:background_downloader/background_downloader.dart';
 ```
 
-# Android Configuration
+### Android Configuration
 For android, no configuration is needed
 
-# IOS Configuration
+### IOS Configuration
 Inside your ```AppDelegate.swift``` file, replace the current code with the following code:
 
 ```
@@ -57,10 +57,10 @@ private func registerPlugins(registry: FlutterPluginRegistry) {
 }
 ```
 
-## Usage
+### Usage
 Please refer to ```/example``` folder for a working example.
 
-# Initialize Download
+#### Initialize Download
 In your ```main.dart``` file, add the following lines of code before ```runApp``` method:
 ```
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,7 +69,7 @@ In your ```main.dart``` file, add the following lines of code before ```runApp``
 
 Now, You can use the ```DownloadManager`` class.
 
-# Initialize DownloadManager
+#### Initialize DownloadManager
 ```
   final DownloadManager _downloadManager = DownloadManager(
         url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4');

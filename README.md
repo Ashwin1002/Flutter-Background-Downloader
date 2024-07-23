@@ -1,16 +1,21 @@
-# background_downloader
+# Background Downloader
 
-A new Flutter project.
+A Flutter downloader library which handles download in separate thread with background processing. This works in both Android and IOS.
 
-## Getting Started
+## Features
+- Manage Downloads By tasks
+- Able to listen to status and progress changes
+- Partial Download Feature
+- Able to download, resume, retry, cancel or remove tasks
+  
+## Platform Supported
+1. Android
+2. IOS
 
-This project is a starting point for a Flutter application.
+## Geeting Started
 
-A few resources to get you started if this is your first Flutter project:
+In your ```pubspec.yaml``` file add:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+  background_downloader: any
+```

@@ -17,5 +17,6 @@ A Flutter downloader library which handles download in separate thread with back
 In your ```pubspec.yaml``` file add:
 
 ```
+dependencies:
   background_downloader: any
 ```

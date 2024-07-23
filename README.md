@@ -76,14 +76,14 @@ Now, You can use the ```DownloadManager`` class.
   _downloadManage.initializeDownload();
 ```
 
-# Dispose DownloadManager
+#### Dispose DownloadManager
 ```
   _downloadManage.dispose();
 ```
 
 Place the above code in you ```initState()``` of your dart code.
 
-# Listen to DownloadManager stream
+#### Listen to DownloadManager stream
 ```
  DownloadModel _downloadTask = DownloadModel.initial();
 
@@ -97,40 +97,40 @@ Place the above code in you ```initState()``` of your dart code.
     );
 ```
 
-# Start Download
+#### Start Download
 ```
   await _downloadManager.startDownload(_downloadTask.taskID)
 ```
 
-# Pause Download
+#### Pause Download
 ```
   await _downloadManager.pauseDownload(_downloadTask.taskID)
 ```
 
-# Resume Download
+#### Resume Download
 ```
    await _downloadManager.resumeDownload(_downloadTask.taskID)
 ```
 
-# Remove Download
+#### Remove Download
 ```
   await _downloadManager.removeDownload(_downloadTask.taskID)
 ```
 
-# Cancel Download
+#### Cancel Download
 ```
   await _downloadManager.cancelDownload(_downloadTask.taskID)
 ```
 
-# Retry Download
+#### Retry Download
 ```
   await _downloadManager.retryDownload(_downloadTask.taskID)
 ```
 
-# Open Downloaded File
+#### Open Downloaded File
 ```
   bool isDownloaded = await _downloadManager.openFile(_downloadTask.taskID);
 ```
 
-## TODO
+### TODO
 - Multiple downloads at once

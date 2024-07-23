@@ -88,35 +88,40 @@ class _MyHomePageState extends State<MyHomePage> {
                   const SizedBox(width: 20.0),
                   const FileContent(),
                   const SizedBox(width: 20.0),
-                  if (!_downloadManager.showContent)
-                    const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  else
-                    switch (_downloadTask.status) {
-                      DownloadStatus.completed ||
-                      DownloadStatus.cancelled =>
-                        DownloadedButton(
-                          onTap: () async => await _downloadManager
-                              .removeDownload(_downloadTask.taskID),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _downloadManager.showContent,
+                    builder: (context, showContent, child) {
+                      return !showContent
+                          ? const RepaintBoundary(
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : child!;
+                    },
+                    child: _downloadTask.status.when(
+                      initial: () => DownloadButton(
+                        onTap: () => _downloadManager.startDownload(
+                          showNotification: true,
                         ),
-                      DownloadStatus.paused => DownloadingButton(
-                          isPaused: true,
-                          value: _downloadTask.progress / 100,
-                          onTap: () async => await _downloadManager
-                              .resumeDownload(_downloadTask.taskID),
-                        ),
-                      DownloadStatus.downloading => DownloadingButton(
-                          value: _downloadTask.progress / 100,
-                          onTap: () async => await _downloadManager
-                              .pauseDownload(_downloadTask.taskID),
-                        ),
-                      _ => DownloadButton(
-                          onTap: () => _downloadManager.startDownload(
-                            showNotification: true,
-                          ),
-                        ),
-                    }
+                      ),
+                      downloading: () => DownloadingButton(
+                        value: _downloadTask.progress / 100,
+                        onTap: () async => await _downloadManager
+                            .pauseDownload(_downloadTask.taskID),
+                      ),
+                      done: () => DownloadedButton(
+                        onTap: () async => await _downloadManager
+                            .removeDownload(_downloadTask.taskID),
+                      ),
+                      paused: () => DownloadingButton(
+                        isPaused: true,
+                        value: _downloadTask.progress / 100,
+                        onTap: () async => await _downloadManager
+                            .resumeDownload(_downloadTask.taskID),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

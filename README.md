@@ -41,7 +41,7 @@ Optional, if you need to install packages/apks, add:
 ```
 
 Under ```<application> ... <\application>```
-Add below code to open file from notification:
+Optional, Add below code to open file from notification:
 ```
   <provider
       android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider"
@@ -54,7 +54,7 @@ Add below code to open file from notification:
   </provider>
 ```
 
-Add below code to configure maximum number of concurrent download tasks
+Optional, Add below code to configure maximum number of concurrent download tasks
 ```
 <!-- Begin FlutterDownloader customization -->
 <!-- disable default Initializer -->

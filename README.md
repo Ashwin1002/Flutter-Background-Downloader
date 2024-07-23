@@ -186,5 +186,5 @@ Place the above code in you ```initState()``` of your dart code.
   bool isDownloaded = await _downloadManager.openFile(_downloadTask.taskID);
 ```
 
-### TODO
+#TODO
 - Multiple downloads at once

@@ -121,7 +121,7 @@ In your ```main.dart``` file, add the following lines of code before ```runApp``
   await DownloadManager.initialize(debug: true);
 ```
 
-Now, You can use the ```DownloadManager`` class.
+Now, You can use the ```DownloadManager``` class.
 
 #### Initialize DownloadManager
 ```

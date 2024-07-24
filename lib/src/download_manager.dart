@@ -92,7 +92,12 @@ class DownloadManager with Helpers {
   Future<void> _prepare() async {
     final tasks = await FlutterDownloader.loadTasks();
 
-    if (tasks == null) return;
+    if (tasks == null) {
+      if (_downloadStream != null) {
+        _downloadStream = null;
+      }
+      return;
+    }
 
     if (tasks.isNotEmpty) {
       for (var task in tasks) {
